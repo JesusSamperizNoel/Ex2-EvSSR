@@ -1,0 +1,45 @@
+-->Este documento contiene los scripts necesarios para crear 
+una base de datos con la estructura correcta y necesaria
+
+create table usuarios (
+	id serial,
+	password character varying (50),
+	alias character varying (50),
+	email character varying (50),
+	profesional boolean,
+	primary key (id)
+)
+
+create table categorias (
+	profesion character varying (50),
+	primary key (profesion)
+)
+
+create table servicios (
+	id serial,
+	titulo character varying (40),
+	descripcion character varying (200),
+	fechafin timestamp,
+	provincia character varying (20),
+	categoria character varying (200),
+	profesional integer,
+	primary key (id),
+	FOREIGN KEY (categoria) REFERENCES categorias(profesion),
+	FOREIGN KEY (profesional) REFERENCES usuarios(id)
+)
+
+create table suscripcionescategorias (
+	usuario integer,
+	categoria character varying (50),
+	primary key (usuario, categoria),
+	FOREIGN KEY (usuario) REFERENCES usuarios(id),
+	FOREIGN KEY (categoria) REFERENCES categorias(profesion)
+)
+
+create table interesservicios (
+	usuario integer,
+	servicio integer,
+	primary key (usuario, servicio),
+	FOREIGN KEY (usuario) REFERENCES usuarios(id),
+	FOREIGN KEY (servicio) REFERENCES servicios(id)
+)
